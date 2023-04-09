@@ -1,0 +1,27 @@
+body,
+html {
+    font-family: "DINPro";
+    background: #ECECEC;
+    &.no-scroll {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        scroll-behavior: auto;
+    }
+}
+.container {
+    width: calc(100% - 80px);
+    max-width: 1815px;
+    padding: 0 20px;
+    margin: 0 auto;
+}
+svg {
+    & path {
+        transition: 0.2s ease;
+    }
+}
+.overflow--hidden {
+    overflow: hidden;
+}

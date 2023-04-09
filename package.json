@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@types/locomotive-scroll": "^4.1.0",
+    "nuxt": "^3.3.1",
+    "vite-plugin-imagemin": "^0.6.1"
+  },
+  "dependencies": {
+    "@fullpage/nuxt-fullpage": "^0.2.3",
+    "@openafg/nuxt-fullpage": "^1.0.5",
+    "@pinia/nuxt": "^0.4.7",
+    "gsap": "^3.11.5",
+    "locomotive-scroll": "^4.1.4",
+    "mobile-detect": "^1.4.5",
+    "pinia": "^2.0.33",
+    "sass": "^1.59.3",
+    "swiper": "^9.1.1",
+    "vue-fullpage.js": "^0.2.13"
+  },
+  "overrides": {
+    "vue": "latest"
+  }
+}
