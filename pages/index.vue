@@ -37,9 +37,9 @@ function changeScreen(i) {
             let prevNum = prevSection.querySelector('.steps-screen__number')
             let prevNumberLetters = prevNum.querySelectorAll('.steps-screen__number_letter')
             sectionTl.to(stepsScreens[i], { top: 0, zIndex: 100, duration: 0, autoAlpha: 1 })
-                .fromTo(prevTitleLine, { y: 0 }, { y: () => -prevTitleLine[0].offsetHeight - 10, duration: .5, ease: 'Power2.easeInOut' })
-                .fromTo(prevNumberLetters, { y: 0 }, { y: () => -prevNumberLetters[0].offsetHeight - 10, duration: .4, stagger: .08, ease: 'Power2.easeInOut' }, '-=.5')
-                .fromTo(titleLine, { y: () => titleLine[0].offsetHeight }, { y: 0, duration: .6, ease: 'Power2.easeInOut' }, '-=.5')
+                .fromTo(prevTitleLine, { y: 0 }, { y: () => -prevTitleLine[0].offsetHeight - 10, stagger:.02, duration: .5, ease: 'Power2.easeInOut' })
+                .fromTo(prevNumberLetters, { y: 0 }, { y: () => -prevNumberLetters[0].offsetHeight - 10, duration: .5, stagger: .1, ease: 'Power2.easeInOut' }, '-=.5')
+                .fromTo(titleLine, { y: () => titleLine[0].offsetHeight }, { y: 0, duration: .6, stagger:.05, ease: 'Power2.easeInOut' }, '-=.6')
                 .fromTo(stepsNumberLetters, { y: () => stepsNumberLetters[0].offsetHeight }, { y: 0, duration: .5, stagger: .1, ease: 'Power2.easeInOut' }, '-=.65')
                 .then(() => {
                     stepsScreens.forEach(screen => {
@@ -93,27 +93,27 @@ onMounted(() => {
     let numberScreens = gsap.utils.toArray('.number-screen')
     let numbersTl = gsap.timeline({ delay: .7 })
     for (let i = 0; i < numberScreens.length; i++) {
-        let number = numberScreens[i].querySelector('.number-screen__number')
-        let numberLetters = number.querySelectorAll('.number-screen__number_letter')
+        let numberEl = numberScreens[i].querySelector('.number-screen__number')
+        let numberLt = numberEl.querySelectorAll('.number-screen__number_letter')
+        let number = {
+            value: +numberEl.textContent,
+            valueTo: 100
+        }
         gsap.set(numberScreens[i], { top: '100%' })
-        gsap.set(numberLetters, { y: () => number.offsetHeight })
-        if (i > 0) {
-            numbersTl.fromTo(numberLetters, { y: () => number.offsetHeight }, { y: 0, stagger: .1, duration: .5, ease: 'Power2.easeInOut' }, '-=.5')
-                .to(numberLetters, { y: () => -number.offsetHeight, duration: .5, delay: .1, ease: 'Power2.easeInOut' })
-        }
-        else {
-            numbersTl.fromTo(numberLetters, { y: () => number.offsetHeight }, { y: 0, stagger: .1, duration: .3, ease: 'Power2.easeInOut' })
-                .to(numberLetters, { y: () => -number.offsetHeight, duration: .5, delay: .1, ease: 'Power2.easeInOut' })
-        }
-        if (i === numberScreens.length - 1) {
-            numbersTl.to(bgScreen, { top: '-150%', duration: .8, ease: 'inOut' })
-                .to(header, { visibility: 'visible', y: 0, duration: .3, delay: .2 })
-                .call(changeScreen, [0], '-=.3')
-                .fromTo(stepsNavigation, { autoAlpha: 0 }, { autoAlpha: 1 }, '-=.3')
-                .to(sendOrderBtn, { y: 0, duration: .3 }, '-=.5')
-                .fromTo('.main', { background: '#FAFAFA' }, { background: '#ECECEC', overflow: 'visible', duration: .3 }, '-=1')
-                .call(() => { numbersVisible.value = false }, [], '-=1')
-        }
+        gsap.set(numberLt, { y: () => numberEl.offsetHeight })
+        numbersTl.to(numberLt, { y: 0, duration: .5, stagger:.1, ease: 'Power2.easeInOut' })
+            .to(number, { value: number.valueTo, duration: 3, delay:.1, ease: 'Power2.easeOut', snap:{value:3}, onUpdate: () => {
+                let num = Math.round(number.value).toString()
+                numberEl.innerText = num.padStart('2', '0')
+            } })
+            .to(numberEl, { y: () => -numberEl.offsetHeight, duration: .5, stagger:.1, ease: 'Power2.easeInOut' }, '-=.3')
+            .to(bgScreen, { top: '-150%', duration: .8, ease: 'inOut' })
+            .to(header, { visibility: 'visible', y: 0, duration: .3, delay: .2 })
+            .call(changeScreen, [0], '-=.3')
+            .fromTo(stepsNavigation, { autoAlpha: 0 }, { autoAlpha: 1 }, '-=.3')
+            .to(sendOrderBtn, { y: 0, duration: .3 }, '-=.5')
+            .fromTo('.main', { background: '#FAFAFA' }, { background: '#ECECEC', overflow: 'visible', duration: .3 }, '-=1')
+            .call(() => { numbersVisible.value = false }, [], '-=1')
     }
     let scrollTriggerObserver = Observer.create({
         target: '.main',

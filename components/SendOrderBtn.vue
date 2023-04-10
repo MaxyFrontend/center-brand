@@ -35,7 +35,9 @@ const props = defineProps({
     white-space: nowrap;
 }
 .send-order-btn__text {
+    font-family: 'Montserrat';
     font-size: 14px;
+    font-weight: 500;
     line-height: 1;
     color: #242424;
     display: inline-block;

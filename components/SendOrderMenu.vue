@@ -5,7 +5,7 @@
         <div class="send-order-menu" v-if="SendOrderMenuStore.menuOpened">
             <div class="container send-order-menu__container">
                 <div class="send-order-menu__header">
-                    <a href="#" class="send-order-menu__lang overflow--hidden"><span class="send-order-menu__slide-bottom-anim">РУ</span></a>
+                    <a href="#" class="send-order-menu__lang overflow--hidden"><span class="send-order-menu__slide-bottom-anim">EN</span></a>
                     <button type="button" class="send-order-menu__close-btn" @click="SendOrderMenuStore.close()">
                         <IconsCross class="send-order-menu__close-btn_icon" />
                     </button>
@@ -319,7 +319,7 @@ const formSubmit = (e) => {
 .send-order-menu__form_controls {
     position: absolute;
     right: -14px;
-    bottom: 8px;
+    bottom: 0;
     transform: translate(100%, -100%);
     width: 100%;
     max-width: 75px;
@@ -448,19 +448,14 @@ const formSubmit = (e) => {
         font-size: 35px;
         line-height: 45px;
     }
-    .send-order-menu__close-btn {
-        width: 68px;
-        height: 68px;
-        margin-left: 40px;
-    }
-    .send-order-menu__form_btn {
-        min-width: 65px;
-        height: 65px;
-    }
 }
 @media (max-width:1400px) {
     .send-order-menu__form_controls {
-        bottom: 18px;
+        bottom: 8px;
+    }
+    .send-order-menu__form_btn {
+        min-width: 68px;
+        height: 68px;
     }
     .send-order-menu__content {
         margin-top: 40px;
@@ -606,6 +601,18 @@ const formSubmit = (e) => {
     }
 }
 @media (max-height:870px) and (min-width:550px) {
+    .send-order-menu__form_controls {
+        bottom: 8px;
+    }
+    .send-order-menu__close-btn {
+        width: 68px;
+        height: 68px;
+        margin-left: 40px;
+    }
+    .send-order-menu__form_btn {
+        min-width: 68px;
+        height: 68px;
+    }
     .send-order-menu__content {
         margin-top: 40px;
     }
@@ -618,9 +625,6 @@ const formSubmit = (e) => {
     .send-order-menu__form_input {
         padding: 24px 30px;
     }
-    .send-order-menu__form_controls {
-        bottom: 0;
-    }
 }
 @media (max-height:800px) and (min-width:550px) {
     .send-order-menu__content {
@@ -632,6 +636,9 @@ const formSubmit = (e) => {
     .send-order-menu__form_types,
     .send-order-menu__budget {
         margin-top: 20px;
+    }
+    .send-order-menu__form_controls {
+        bottom: -5px;
     }
 }
 @media (max-width:1400px) and (max-height:750px) {
