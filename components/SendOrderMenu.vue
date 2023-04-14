@@ -11,7 +11,7 @@
                     </button>
                 </div>
                 <div class="send-order-menu__content">
-                    <form ref="sendOrderForm" action="#" class="send-order-menu__form" @submit.prevent="formSubmit">
+                    <form action="#" class="send-order-menu__form" @submit.prevent="formSubmit">
                         <h3 class="send-order-menu__form_title overflow--hidden">
                             <span class="send-order-menu__slide-bottom-anim">Давайте начнём!</span>
                         </h3>
@@ -31,13 +31,13 @@
                         </ul>
                         <div class="send-order-menu__form_fields-wrapper">
                             <div class="send-order-menu__form_field">
-                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', {'is-invalid': v$.name.$invalid && v$.name.$dirty}]" placeholder="Имя,  Компания" v-model="state.name">
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.name.$invalid && v$.name.$dirty }]" placeholder="Имя,  Компания" v-model="state.name">
                             </div>
                             <div class="send-order-menu__form_field">
-                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', {'is-invalid': v$.email.$invalid && v$.email.$dirty}]" placeholder="E-mail" v-model="state.email">
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.email.$invalid && v$.email.$dirty }]" placeholder="E-mail" v-model="state.email">
                             </div>
                             <div class="send-order-menu__form_field full-width">
-                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', {'is-invalid': v$.details.$invalid && v$.details.$dirty}]" placeholder="Детали проекта" v-model="state.details" />
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.details.$invalid && v$.details.$dirty }]" placeholder="Детали проекта" v-model="state.details" />
                             </div>
                         </div>
                         <ul class="send-order-menu__budget send-order-menu__visibility-anim">
@@ -97,7 +97,6 @@ import { useSendOrderMenuStore } from '@/store/SendOrderMenuStore';
 import { useThanksScreenStore } from '@/store/ThanksScreenStore.js';
 const SendOrderMenuStore = useSendOrderMenuStore()
 const ThanksScreenStore = useThanksScreenStore()
-const sendOrderForm = ref(null)
 let tl = gsap.timeline()
 const enter = (el) => {
     menuOpen(el)
@@ -124,8 +123,6 @@ const menuOpen = (el) => {
     const backgroundScreen = document.querySelector('.menu-bg-screen')
     const sendOrderBtnCircle = document.querySelectorAll('.send-order-btn__icon-inner')
     const sendOrderBtnText = document.querySelectorAll('.send-order-btn__text_inner')
-    sendOrderForm.value.reset()
-    v$.value.$reset()
     tl.fromTo(sendOrderBtnCircle, { scale: 1, autoAlpha: 1 }, { scale: 0, autoAlpha: 0, ease: 'Power2.ease', duration: .4 })
         .fromTo(sendOrderBtnText, { y: 0 }, { y: 15, duration: .2 }, '-=.4')
         .fromTo(backgroundScreen, { top: '-150%' }, { top: '150%', duration: 1.2, ease: 'Power2.ease' }, '-=.2')
@@ -182,12 +179,18 @@ const budgetChoose = (idx) => {
     budget.value[idx].choosen = true
 }
 const formSubmit = async (e) => {
-        let formIsValid = await v$.value.$validate()
-        if(!formIsValid) {
-            return false
-        }
-        let currentForm = e.target
-        ThanksScreenStore.open()
+    let formIsValid = await v$.value.$validate()
+    if (!formIsValid) {
+        return false
+    }
+    let currentForm = e.target
+    ThanksScreenStore.open()
+    setTimeout(() => {
+        state.name = ''
+        state.email = ''
+        state.details = ''
+        v$.value.$reset()
+    }, 1000)
 }
 const state = reactive({
     name: '',
@@ -333,6 +336,7 @@ const v$ = useVuelidate(rules, state)
     color: #FAFAFA;
     border: 1px solid #606060;
     border-radius: 16px;
+    transition: 0.2s ease;
     &::placeholder {
         color: inherit;
         display: block;
