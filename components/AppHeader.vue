@@ -50,6 +50,8 @@ const MobileMenuStore = useMobileMenuStore()
     align-items: center;
 }
 .header__nav {
+    display: flex;
+    align-items: center;
     margin-left: auto;
 }
 .header__nav-list {

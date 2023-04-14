@@ -2,7 +2,7 @@
     <div :class="['app', { 'visible': sectionVisible }, { 'is-mobile': isMobileOrTablet }]">
         <div :class="['main']">
             <AppHeader />
-            <Numbers v-if="numbersVisible" />
+            <LoadingScreen v-if="numbersVisible" :numFrom="0" :numTo="99" :step="5" />
             <BackgroundScreen class="first-appear-bg-screen" />
             <Steps />
             <ControlPanel @btnClick="(idx) => navBtnClick(idx)" />
@@ -37,9 +37,9 @@ function changeScreen(i) {
             let prevNum = prevSection.querySelector('.steps-screen__number')
             let prevNumberLetters = prevNum.querySelectorAll('.steps-screen__number_letter')
             sectionTl.to(stepsScreens[i], { top: 0, zIndex: 100, duration: 0, autoAlpha: 1 })
-                .fromTo(prevTitleLine, { y: 0 }, { y: () => -prevTitleLine[0].offsetHeight - 10, stagger:.02, duration: .5, ease: 'Power2.easeInOut' })
+                .fromTo(prevTitleLine, { y: 0 }, { y: () => -prevTitleLine[0].offsetHeight - 10, stagger: .02, duration: .5, ease: 'Power2.easeInOut' })
                 .fromTo(prevNumberLetters, { y: 0 }, { y: () => -prevNumberLetters[0].offsetHeight - 10, duration: .5, stagger: .1, ease: 'Power2.easeInOut' }, '-=.5')
-                .fromTo(titleLine, { y: () => titleLine[0].offsetHeight }, { y: 0, duration: .6, stagger:.05, ease: 'Power2.easeInOut' }, '-=.6')
+                .fromTo(titleLine, { y: () => titleLine[0].offsetHeight }, { y: 0, duration: .6, stagger: .05, ease: 'Power2.easeInOut' }, '-=.6')
                 .fromTo(stepsNumberLetters, { y: () => stepsNumberLetters[0].offsetHeight }, { y: 0, duration: .5, stagger: .1, ease: 'Power2.easeInOut' }, '-=.65')
                 .then(() => {
                     stepsScreens.forEach(screen => {
@@ -90,31 +90,39 @@ onMounted(() => {
     gsap.set(header, { visibility: 'hidden', y: () => header.offsetHeight })
     gsap.set(stepsNavigation, { autoAlpha: 0 })
     gsap.set(sendOrderBtn, { y: () => sendOrderBtn.offsetHeight })
-    let numberScreens = gsap.utils.toArray('.number-screen')
     let numbersTl = gsap.timeline({ delay: .7 })
-    for (let i = 0; i < numberScreens.length; i++) {
-        let numberEl = numberScreens[i].querySelector('.number-screen__number')
-        let numberLt = numberEl.querySelectorAll('.number-screen__number_letter')
-        let number = {
-            value: +numberEl.textContent,
-            valueTo: 100
+    let numbersWrapper = document.querySelector('.loading-screen__number-wrapper')
+    let numberEl = numbersWrapper.querySelectorAll('.loading-screen__number')
+    let numberChars = numbersWrapper.querySelectorAll('.loading-screen__number_char')
+    gsap.set(numbersWrapper, { height: () => numberEl[0].offsetHeight })
+    gsap.set(numberChars, { y: () => numberEl[0].offsetHeight })
+    numberEl.forEach((el, idx) => {
+        let chars = el.querySelectorAll('.loading-screen__number_char')
+        if (idx === 0) {
+            numbersTl.to(chars, { y: 0, duration: .15, stagger:.07, })
+                .to(chars, { y: () => -numberEl[0].offsetHeight, delay:.3, duration: .15, })
         }
-        gsap.set(numberScreens[i], { top: '100%' })
-        gsap.set(numberLt, { y: () => numberEl.offsetHeight })
-        numbersTl.to(numberLt, { y: 0, duration: .5, stagger:.1, ease: 'Power2.easeInOut' })
-            .to(number, { value: number.valueTo, duration: 3, delay:.1, ease: 'Power2.easeOut', snap:{value:3}, onUpdate: () => {
-                let num = Math.round(number.value).toString()
-                numberEl.innerText = num.padStart('2', '0')
-            } })
-            .to(numberEl, { y: () => -numberEl.offsetHeight, duration: .5, stagger:.1, ease: 'Power2.easeInOut' }, '-=.3')
-            .to(bgScreen, { top: '-150%', duration: .8, ease: 'inOut' })
-            .to(header, { visibility: 'visible', y: 0, duration: .3, delay: .2 })
-            .call(changeScreen, [0], '-=.3')
-            .fromTo(stepsNavigation, { autoAlpha: 0 }, { autoAlpha: 1 }, '-=.3')
-            .to(sendOrderBtn, { y: 0, duration: .3 }, '-=.5')
-            .fromTo('.main', { background: '#FAFAFA' }, { background: '#ECECEC', overflow: 'visible', duration: .3 }, '-=1')
-            .call(() => { numbersVisible.value = false }, [], '-=1')
-    }
+        if (idx > 0) {
+            if(idx === numberEl.length-1) {
+                numbersTl.to(chars, { y: 0, duration: .125, stagger:.05, }, '-=.125')
+                .to(chars, { y: () => -numberEl[0].offsetHeight, delay:.3, duration: .3, })
+                .to(numbersWrapper, {y:-150, duration:3, ease: 'Power2.ease'}, '0.5')
+            }
+            else {
+                numbersTl.to(chars, { y: 0, duration: .125, stagger:.05, }, '-=.125')
+                    .to(chars, { y: () => -numberEl[0].offsetHeight, duration: .125,}, '-=.05')
+            }
+        }
+
+    })
+    numbersTl
+        .to(bgScreen, { top: '-150%', duration: .8, delay: .2, ease: 'inOut' })
+        .to(header, { visibility: 'visible', y: 0, duration: .3, delay: .2 })
+        .call(changeScreen, [0], '-=.3')
+        .fromTo(stepsNavigation, { autoAlpha: 0 }, { autoAlpha: 1 }, '-=.3')
+        .to(sendOrderBtn, { y: 0, duration: .3 }, '-=.5')
+        .fromTo('.main', { background: '#FAFAFA' }, { background: '#ECECEC', overflow: 'visible', duration: .3 }, '-=1')
+        .call(() => { numbersVisible.value = false }, [], '-=1')
     let scrollTriggerObserver = Observer.create({
         target: '.main',
         type: "wheel, touch",

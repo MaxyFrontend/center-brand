@@ -16,6 +16,8 @@
     "@fullpage/nuxt-fullpage": "^0.2.3",
     "@openafg/nuxt-fullpage": "^1.0.5",
     "@pinia/nuxt": "^0.4.7",
+    "@vuelidate/core": "^2.0.2",
+    "@vuelidate/validators": "^2.0.2",
     "gsap": "^3.11.5",
     "locomotive-scroll": "^4.1.4",
     "mobile-detect": "^1.4.5",

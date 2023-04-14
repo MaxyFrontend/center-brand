@@ -11,7 +11,7 @@
                     </button>
                 </div>
                 <div class="send-order-menu__content">
-                    <form action="#" class="send-order-menu__form" @submit.prevent="formSubmit">
+                    <form ref="sendOrderForm" action="#" class="send-order-menu__form" @submit.prevent="formSubmit">
                         <h3 class="send-order-menu__form_title overflow--hidden">
                             <span class="send-order-menu__slide-bottom-anim">Давайте начнём!</span>
                         </h3>
@@ -31,13 +31,13 @@
                         </ul>
                         <div class="send-order-menu__form_fields-wrapper">
                             <div class="send-order-menu__form_field">
-                                <input type="text" class="send-order-menu__form_input send-order-menu__visibility-anim" placeholder="Имя,  Компания">
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', {'is-invalid': v$.name.$invalid && v$.name.$dirty}]" placeholder="Имя,  Компания" v-model="state.name">
                             </div>
                             <div class="send-order-menu__form_field">
-                                <input type="text" class="send-order-menu__form_input send-order-menu__visibility-anim" placeholder="E-mail">
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', {'is-invalid': v$.email.$invalid && v$.email.$dirty}]" placeholder="E-mail" v-model="state.email">
                             </div>
                             <div class="send-order-menu__form_field full-width">
-                                <input type="text" class="send-order-menu__form_input send-order-menu__visibility-anim" placeholder="Детали проекта" />
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', {'is-invalid': v$.details.$invalid && v$.details.$dirty}]" placeholder="Детали проекта" v-model="state.details" />
                             </div>
                         </div>
                         <ul class="send-order-menu__budget send-order-menu__visibility-anim">
@@ -91,10 +91,13 @@
 
 <script setup>
 import gsap from 'gsap';
+import { required, email } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 import { useSendOrderMenuStore } from '@/store/SendOrderMenuStore';
 import { useThanksScreenStore } from '@/store/ThanksScreenStore.js';
 const SendOrderMenuStore = useSendOrderMenuStore()
 const ThanksScreenStore = useThanksScreenStore()
+const sendOrderForm = ref(null)
 let tl = gsap.timeline()
 const enter = (el) => {
     menuOpen(el)
@@ -121,6 +124,8 @@ const menuOpen = (el) => {
     const backgroundScreen = document.querySelector('.menu-bg-screen')
     const sendOrderBtnCircle = document.querySelectorAll('.send-order-btn__icon-inner')
     const sendOrderBtnText = document.querySelectorAll('.send-order-btn__text_inner')
+    sendOrderForm.value.reset()
+    v$.value.$reset()
     tl.fromTo(sendOrderBtnCircle, { scale: 1, autoAlpha: 1 }, { scale: 0, autoAlpha: 0, ease: 'Power2.ease', duration: .4 })
         .fromTo(sendOrderBtnText, { y: 0 }, { y: 15, duration: .2 }, '-=.4')
         .fromTo(backgroundScreen, { top: '-150%' }, { top: '150%', duration: 1.2, ease: 'Power2.ease' }, '-=.2')
@@ -176,10 +181,27 @@ const budgetChoose = (idx) => {
     })
     budget.value[idx].choosen = true
 }
-const formSubmit = (e) => {
-    let currentForm = e.target
-    ThanksScreenStore.open()
+const formSubmit = async (e) => {
+        let formIsValid = await v$.value.$validate()
+        if(!formIsValid) {
+            return false
+        }
+        let currentForm = e.target
+        ThanksScreenStore.open()
 }
+const state = reactive({
+    name: '',
+    email: '',
+    details: '',
+})
+const rules = computed(() => {
+    return {
+        name: { required },
+        email: { required, email },
+        details: {},
+    };
+});
+const v$ = useVuelidate(rules, state)
 </script>
 
 <style lang="scss">
@@ -315,6 +337,10 @@ const formSubmit = (e) => {
         color: inherit;
         display: block;
     }
+    &.is-invalid {
+        border-color: #ff4444;
+        color: #ff4444;
+    }
 }
 .send-order-menu__form_controls {
     position: absolute;
@@ -368,7 +394,14 @@ const formSubmit = (e) => {
     align-items: flex-end;
     margin-top: auto;
 }
+.send-order-menu__logo-wrapper {
+    margin-bottom: -28px;
+}
 .send-order-menu__logo {
+    align-self: flex-start;
+    & .logo__image {
+        margin-bottom: 0;
+    }
     & .logo__text {
         color: #808080;
     }
@@ -510,6 +543,7 @@ const formSubmit = (e) => {
         width: 100%;
         max-width: 160px;
         transform: translateY(-50%);
+        margin: 0;
         z-index: 10;
     }
     .send-order-menu__logo {

@@ -53,7 +53,6 @@ defineEmits(["btnClick"]);
 .steps-navigation {
   position: relative;
   width: 100%;
-  margin-right: 20px;
 }
 .steps-navigation__nav {
   width: 100%;
