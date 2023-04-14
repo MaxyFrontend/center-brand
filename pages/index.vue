@@ -123,6 +123,20 @@ onMounted(() => {
         .to(sendOrderBtn, { y: 0, duration: .3 }, '-=.5')
         .fromTo('.main', { background: '#FAFAFA' }, { background: '#ECECEC', overflow: 'visible', duration: .3 }, '-=1')
         .call(() => { numbersVisible.value = false }, [], '-=1')
+        .then(()=>{
+            setInterval(()=>{
+                if(!isAnimating) {
+                    if(currentSectionIdx === stepScreensAmount-1) {
+                        currentSectionIdx = 0
+                        changeScreen(currentSectionIdx)
+                    }
+                    else {
+                        changeScreen(currentSectionIdx + 1)
+                    }
+                }
+            }, 5000)
+        })
+        let stepScreensAmount = document.querySelectorAll('.steps-screen').length
     let scrollTriggerObserver = Observer.create({
         target: '.main',
         type: "wheel, touch",
