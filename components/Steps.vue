@@ -24,6 +24,10 @@ const stepsTitles = [
         "Наполняем визуальным материалом",
         "Объем, анимация, видео, фото"
     ],
+    [
+        "Quam, dolorem officiis numquam ipsa",
+        "Id earum hic molestiae at"
+    ],
 ]
 </script>
 
@@ -31,7 +35,9 @@ const stepsTitles = [
 .steps {
     position: relative;
     width: 100%;
+    min-height: 300px;
     flex-grow: 1;
+    margin-top: auto;
     z-index: 10;
 }
 
@@ -39,5 +45,15 @@ const stepsTitles = [
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+@media (max-width:1600px) {
+    .steps {
+        min-height: 220px;
+    }
+}
+@media (max-width:1400px) {
+    .steps {
+        min-height: 200px;
+    }
 }
 </style>

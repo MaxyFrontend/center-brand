@@ -1,49 +1,21 @@
 <template>
-  <div class="steps-navigation">
-    <swiper
-      :class="['steps-navigation__nav']"
-      :modules="modules"
-      :speed="500"
-      :slidesPerView="'auto'"
-      :spaceBetween="8"
-      :allow-touch-move="true"
-      :short-swipes="true"
-      :pagination="{
-        el:'.steps-navigation__slider-pagination',
-        type:'progressbar'
-      }"
-      :breakpoints="{
-        1000: {
-          allowTouchMove:false
-        },
-        500: {
-          spaceBetween: 12
-        }
-      }">
-      <swiper-slide
-        :class="['steps-navigation__nav_item', { current: item.current }]"
-        v-for="(item, idx) of navigation"
-        :key="idx"
-        @click="$emit('btnClick', idx)">
-        {{ item.text }}
-      </swiper-slide>
-      <swiper-slide class="steps-navigation__send-order-btn-slide">
-        <SendOrderBtn class="steps-navigation__send-order-btn-wrapper" />
-      </swiper-slide>
-    </swiper>
-    <div class="steps-navigation__slider-pagination swiper-pagination">
-
+  <section class="steps-navigation">
+    <div class="container steps-navigation__container">
+      <div class="steps-navigation__list">
+        <button
+          :class="['steps-navigation__list_item', { current: item.current }]"
+          v-for="(item, idx) of navigation"
+          :key="idx"
+          @click="$emit('btnClick', idx)">
+          {{ item.text }}
+        </button>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
 import { useStepsNavigationStore } from "@/store/StepsNavigationStore";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { A11y, Pagination } from "swiper";
-import "swiper/css";
-import "swiper/css/pagination"
-const modules = [A11y, Pagination];
 let StepsNaigationStore = useStepsNavigationStore();
 const navigation = StepsNaigationStore.navigation;
 defineEmits(["btnClick"]);
@@ -54,13 +26,15 @@ defineEmits(["btnClick"]);
   position: relative;
   width: 100%;
 }
-.steps-navigation__nav {
+.steps-navigation__list {
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
   overflow: visible;
+  gap:14px;
 }
-.steps-navigation__nav_item {
-  width: 100vw;
-  max-width: 162px;
+.steps-navigation__list_item {
+  width: auto;
   touch-action: pan-y;
   display: flex;
   align-items: center;
@@ -71,18 +45,25 @@ defineEmits(["btnClick"]);
   font-size: 14px;
   line-height: 1;
   color: #242424;
-  padding: 30px;
-  border: 1px solid #cacaca;
+  padding: 16px 24px;
+  background: #DBDBDB;
   border-radius: 48px;
-  background: transparent;
   transition: 0.2s ease;
   cursor: pointer;
-  &.current {
+  &:last-child {
+    margin-right: 0;
+  }
+  &:hover:not(.is-mobile &) {
     background: #343434;
     color: #fafafa;
   }
+  &.current {
+    background: #343434;
+    color: #fafafa;
+    border-radius: 1px;
+  }
 }
-.steps-navigation__nav_item_btn {
+.steps-navigation__list_item_btn {
   width: 100%;
 }
 .steps-navigation__send-order-btn-slide {
@@ -103,19 +84,14 @@ defineEmits(["btnClick"]);
   }
 }
 @media (max-width: 1400px) {
-  .steps-navigation__nav_item {
-    max-width: 150px;
+  .steps-navigation__list_item {
+    // max-width: 150px;
   }
-  .steps-navigation__nav_item {
-    padding: 26px;
-  }
-}
-@media (max-width: 1200px) {
-  .steps-navigation__nav_item {
-    width: 50vw;
-    max-width: 140px;
+  .steps-navigation__list_item {
+    // padding: 26px;
   }
 }
+@media (max-width: 1200px) {}
 @media (max-width: 1000px) {
   .steps-navigation {
     width: 100%;
@@ -128,9 +104,8 @@ defineEmits(["btnClick"]);
   }
 }
 @media (max-width: 370px) {
-  .steps-navigation__nav_item {
-    padding: 22px;
-    max-width: 120px;
+  .steps-navigation__list_item {
+    padding: 14px 20px;
     font-size: 12px;
   }
 }

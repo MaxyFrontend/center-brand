@@ -1,13 +1,15 @@
 <template>
-    <transition name="fade">        
+    <transition name="fade">
         <div class="mobile-menu" v-if="MobileMenuStore.menuOpened">
             <div class="mobile-menu__header">
                 <div class="container mobile-menu__header_container">
-                    <Logo class="mobile-menu__logo" />
-                    <a href="#" class="mobile-menu__lang">EN</a>
-                    <button class="mobile-menu__close-btn" @click="MobileMenuStore.close()">
-                        <IconsCross color="#242424" />
-                    </button>
+                    <Logo class="mobile-menu__logo" ImageColor="#fafafa" />
+                    <div class="mobile-menu__controls">
+                        <button class="mobile-menu__close-btn" @click="MobileMenuStore.close()">
+                            <IconsCross color="#fafafa" />
+                        </button>
+                        <a href="#" class="mobile-menu__lang">EN</a>
+                    </div>
                 </div>
             </div>
             <div class="mobile-menu__body">
@@ -44,7 +46,17 @@
 
 <script setup>
 import { useMobileMenuStore } from "@/store/MobileMenuStore.js"
+import DisableScroll from '@/composables/disable-scroll';
+import EnableScroll from '@/composables/enable-scroll';
 const MobileMenuStore = useMobileMenuStore()
+MobileMenuStore.$subscribe(() => {
+    if (MobileMenuStore.menuOpened) {
+        DisableScroll()
+    }
+    else {
+        EnableScroll()
+    }
+})
 </script>
 
 <style lang="scss">
@@ -55,52 +67,70 @@ const MobileMenuStore = useMobileMenuStore()
     width: 100%;
     height: 100%;
     display: none;
-    padding: 36px 0 32px;
+    padding: 20px 0 32px;
     overflow-y: auto;
-    background: #ECECEC;
+    background: #282828;
+    color: #fafafa;
     z-index: 500;
     &.fade-enter-active,
     &.fade-leave-active {
-        transform: translate(0, 0);
+        transform: translate(0);
         opacity: 1;
-        transition: transform, opacity, 0.4s ease;
+        transition: transform, opacity, 0.3s ease;
         transition-delay: .1s;
     }
 
     &.fade-enter-from {
         opacity: 0;
-        transform: translateX(-20%);
+        transform: translate(-30%);
     }
     &.fade-leave-to {
         opacity: 0;
-        transform: translateY(-20%);
-        transition: transform, opacity, 0.4s ease;
+        transform: translate(30%);
+        transition: transform, opacity, 0.3s ease;
     }
 }
 .mobile-menu__header {}
 .mobile-menu__header_container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 }
 .mobile-menu__logo {
     margin-right: auto;
+    margin-top: 20px;
+    width: auto;
+    & .logo__text {
+        color: #808080;
+    }
+}
+.mobile-menu__controls {
+    width: 100%;
+    max-width: 68px;
+    margin-left: 30px;
 }
 .mobile-menu__lang {
+    width: 100%;
+    min-height: 68px;
     font-family: 'Montserrat';
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
-    color: #606060;
-    margin-right: 40px;
-}
-.mobile-menu__close-btn {
-    min-width: 68px;
-    height: 68px;
+    margin-top: -2px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #CACACA;
-    border-radius: 50%;
+    border: 1px solid #606060;
+    border-top: none;
+    color: #FAFAFA;
+}
+.mobile-menu__close-btn {
+    flex-basis: 100%;
+    width: 100%;
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #606060;
 }
 .mobile-menu__body {
     flex-grow: 1;
@@ -130,7 +160,7 @@ const MobileMenuStore = useMobileMenuStore()
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
-    color: #404040;
+    color: #fafafa;
     margin-bottom: 7px;
     &:last-child {
         margin-bottom: 0;
@@ -155,6 +185,9 @@ const MobileMenuStore = useMobileMenuStore()
 }
 .mobile-menu__order-btn {
     margin-top: 77px;
+    & .send-order-btn__text {
+        color: #fafafa;
+    }
 }
 @media (max-width:1000px) {
     .mobile-menu {
@@ -162,20 +195,20 @@ const MobileMenuStore = useMobileMenuStore()
         flex-direction: column;
     }
 }
-@media (max-width: 500px) {
-    .mobile-menu__logo {
-        max-width: 150px;
-    }
-}
 @media (max-width: 370px) {
+    .mobile-menu__controls {
+        max-width: 60px;
+    }
     .mobile-menu__lang {
         font-size: 12px;
         line-height: 15px;
         margin-right: 26px;
+        min-height: 60px;
+        min-width: 60px;
     }
     .mobile-menu__close-btn {
         min-width: 60px;
-        height: 60px;
+        min-height: 60px;
     }
     .mobile-menu__contacts_group {
         margin-bottom: 30px;

@@ -22,6 +22,11 @@ export const useStepsNavigationStore = defineStore('StepsNavigationStore', {
                     navTo:'3',
                     current:false
                 },
+                {
+                    text: 'Комплекс',
+                    navTo:'4',
+                    current:false
+                },
             ]
         }
     },

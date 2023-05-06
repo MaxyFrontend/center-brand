@@ -1,31 +1,33 @@
 <template>
-    <div :class="['app', { 'visible': sectionVisible }, { 'is-mobile': isMobileOrTablet }]">
-        <div :class="['main']">
-            <AppHeader />
-            <LoadingScreen v-if="numbersVisible" :numFrom="0" :numTo="99" :step="5" />
-            <BackgroundScreen class="first-appear-bg-screen" />
-            <Steps />
-            <ControlPanel @btnClick="(idx) => navBtnClick(idx)" />
-        </div>
-        <SendOrderMenu />
-        <MobileMenu />
-        <ThanksScreen />
-    </div>
+    <AppHeader />
+    <main :class="['main']">
+        <BackgroundScreen class="first-appear-bg-screen" />
+        <StepsNavigation @btnClick="(idx) => navBtnClick(idx)" />
+        <Steps />
+        <Info :currentTableIdx="currentInfoTableIdx" />
+    </main>
+    <LoadingScreen v-if="numbersVisible" :numFrom="0" :numTo="99" :step="5" />
+    <SendOrderMenu />
+    <MobileMenu />
+    <ThanksScreen />
 </template>
 
 <script setup>
 import gsap from 'gsap';
 import { Observer } from 'gsap/Observer';
 import { useStepsNavigationStore } from '@/store/StepsNavigationStore'
-let sectionVisible = ref(false)
 gsap.registerPlugin(Observer);
 const StepsNaigationStore = useStepsNavigationStore()
 let isAnimating = true;
 let prevSection
 let currentSectionIdx = 0;
+let stepScreensAmount
+let animInterval = ref(null)
+let currentInfoTableIdx = ref(0)
 function changeScreen(i) {
     let stepsScreens = gsap.utils.toArray('.steps-screen')
     if (i < stepsScreens.length) {
+        clearInterval(animInterval.value)
         isAnimating = true;
         StepsNaigationStore.chooseBtn(i)
         let sectionTl = gsap.timeline()
@@ -65,6 +67,18 @@ function changeScreen(i) {
         }
         prevSection = stepsScreens[i]
         currentSectionIdx = i
+        currentInfoTableIdx.value = i
+        animInterval.value = setInterval(() => {
+            if (!isAnimating) {
+                if (currentSectionIdx === stepScreensAmount - 1) {
+                    currentSectionIdx = 0
+                    changeScreen(currentSectionIdx)
+                }
+                else {
+                    changeScreen(currentSectionIdx + 1)
+                }
+            }
+        }, 5000)
     }
     else {
         isAnimating = false
@@ -78,17 +92,27 @@ const navBtnClick = (idx) => {
 const isMobileOrTablet = ref(false)
 const numbersVisible = ref(true)
 onMounted(() => {
-    const { $isMobile, $isTablet } = useNuxtApp()
-    if ($isMobile() || $isTablet()) {
-        isMobileOrTablet.value = true
-    }
     let header = document.querySelector('.header__content')
     let bgScreen = document.querySelector('.first-appear-bg-screen')
+    let main = document.querySelector('.main')
+    let steps = document.querySelector('.steps')
+    let stepsScreens = document.querySelectorAll('.steps-screen')
+    stepScreensAmount = stepsScreens.length
     let stepsNavigation = document.querySelector('.steps-navigation')
     let sendOrderBtn = document.querySelector('.send-order-btn')
+    let stepsHeight = () => {
+        let height = stepsScreens[0].offsetHeight
+        stepsScreens.forEach(screen => {
+            if (screen.offsetHeight > height) {
+                height = screen.offsetHeight
+            }
+        })
+        return height
+    }
     gsap.set(bgScreen, { top: '100%' })
     gsap.set(header, { visibility: 'hidden', y: () => header.offsetHeight })
     gsap.set(stepsNavigation, { autoAlpha: 0 })
+    gsap.set(steps, { minHeight: stepsHeight() })
     gsap.set(sendOrderBtn, { y: () => sendOrderBtn.offsetHeight })
     let numbersTl = gsap.timeline({ delay: .7 })
     let numbersWrapper = document.querySelector('.loading-screen__number-wrapper')
@@ -99,18 +123,18 @@ onMounted(() => {
     numberEl.forEach((el, idx) => {
         let chars = el.querySelectorAll('.loading-screen__number_char')
         if (idx === 0) {
-            numbersTl.to(chars, { y: 0, duration: .15, stagger:.07, })
-                .to(chars, { y: () => -numberEl[0].offsetHeight, delay:.3, duration: .15, })
+            numbersTl.to(chars, { y: 0, duration: .15, stagger: .07, })
+                .to(chars, { y: () => -numberEl[0].offsetHeight, delay: .3, duration: .15, })
         }
         if (idx > 0) {
-            if(idx === numberEl.length-1) {
-                numbersTl.to(chars, { y: 0, duration: .125, stagger:.05, }, '-=.125')
-                .to(chars, { y: () => -numberEl[0].offsetHeight, delay:.3, duration: .3, })
-                .to(numbersWrapper, {y:-150, duration:3, ease: 'Power2.ease'}, '0.5')
+            if (idx === numberEl.length - 1) {
+                numbersTl.to(chars, { y: 0, duration: .125, stagger: .05, }, '-=.125')
+                    .to(chars, { y: () => -numberEl[0].offsetHeight, delay: .3, duration: .3, })
+                    .to(numbersWrapper, { y: -150, duration: 3, ease: 'Power2.ease' }, '0.5')
             }
             else {
-                numbersTl.to(chars, { y: 0, duration: .125, stagger:.05, }, '-=.125')
-                    .to(chars, { y: () => -numberEl[0].offsetHeight, duration: .125,}, '-=.05')
+                numbersTl.to(chars, { y: 0, duration: .125, stagger: .05, }, '-=.125')
+                    .to(chars, { y: () => -numberEl[0].offsetHeight, duration: .125, }, '-=.05')
             }
         }
 
@@ -121,44 +145,42 @@ onMounted(() => {
         .call(changeScreen, [0], '-=.3')
         .fromTo(stepsNavigation, { autoAlpha: 0 }, { autoAlpha: 1 }, '-=.3')
         .to(sendOrderBtn, { y: 0, duration: .3 }, '-=.5')
-        .fromTo('.main', { background: '#FAFAFA' }, { background: '#ECECEC', overflow: 'visible', duration: .3 }, '-=1')
+        .fromTo('.app', { background: '#FAFAFA' }, { background: '#ECECEC', overflow: 'visible', duration: .3 }, '-=1')
+        .to('.info__table_item_border-top', { width: '100%', duration: .2 }, '-=.4')
+        .to('.info__table_item_border-bottom', { width: '100%', duration: .2 }, '-=.4')
+        .to('.info__table_item_border-right', { height: '100%', duration: .2 }, '-=.4')
+        .to('.info__table_item_border-left', { height: '100%', duration: .2 }, '-=.4')
+        .to('.info__table_item_text-inner', { y: 0, duration: .3 }, '-=.1')
         .call(() => { numbersVisible.value = false }, [], '-=1')
-        .then(()=>{
-            setInterval(()=>{
-                if(!isAnimating) {
-                    if(currentSectionIdx === stepScreensAmount-1) {
-                        currentSectionIdx = 0
-                        changeScreen(currentSectionIdx)
-                    }
-                    else {
-                        changeScreen(currentSectionIdx + 1)
-                    }
-                }
-            }, 5000)
-        })
-        let stepScreensAmount = document.querySelectorAll('.steps-screen').length
     let scrollTriggerObserver = Observer.create({
         target: '.main',
         type: "wheel, touch",
         lockAxis: true,
         onUp: () => {
             if (!isMobileOrTablet.value) {
-                if (currentSectionIdx > 0 && !isAnimating) {
-                    changeScreen(currentSectionIdx - 1)
+                if (!isAnimating) {
+                    if (currentSectionIdx === 0) {
+                        changeScreen(stepScreensAmount - 1)
+                    }
+                    else {
+                        changeScreen(currentSectionIdx - 1)
+                    }
                 }
             }
         },
         onDown: () => {
             if (!isMobileOrTablet.value) {
                 if (!isAnimating) {
-                    changeScreen(currentSectionIdx + 1)
+                    if (currentSectionIdx === stepScreensAmount - 1) {
+                        changeScreen(0)
+                    }
+                    else {
+                        changeScreen(currentSectionIdx + 1)
+                    }
                 }
             }
         },
     });
-    setTimeout(() => {
-        sectionVisible.value = true
-    }, 100)
 })
 </script>
 
@@ -169,8 +191,11 @@ onMounted(() => {
     top: 0;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
     opacity: 0;
     visibility: hidden;
+    overflow: hidden;
     &.visible {
         opacity: 1;
         visibility: visible;
@@ -179,19 +204,34 @@ onMounted(() => {
 .main {
     position: relative;
     width: 100%;
-    height: 100vh;
-    min-height: 570px;
+    min-height: 500px;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    z-index: 10;
+    padding-bottom: 68px;
+    z-index: 100;
     .is-mobile & {
         height: fill-available;
+    }
+}
+@media (max-width:1400px) {
+    .main {
+        padding-bottom: 32px;
     }
 }
 @media (max-width:1200px) {
     .main {
         min-height: 500px;
+    }
+}
+@media (max-width:700px) {
+    .main {
+        min-height: 670px;
+    }
+}
+@media (max-width:370px) {
+    .main {
+        min-height: 560px;
     }
 }
 </style>

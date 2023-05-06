@@ -78,9 +78,8 @@
                                 <span class="send-order-menu__slide-bottom-anim">Москва, ул. Новодмитровская, д. 1</span>
                             </p>
                         </div>
-                        <a href="mailto:hello@proekt.agency" class="send-order-menu__contacts_email overflow--hidden">
-                            <span class="send-order-menu__slide-bottom-anim">hello@proekt.agency</span>
-                        </a>
+                        <a href="mailto:hello@bignames.ru" class="send-order-menu__contacts_email overflow--hidden">
+                            <span class="send-order-menu__slide-bottom-anim">hello@bignames.ru</span>                        </a>
                     </div>
                 </div>
             </div>
@@ -95,8 +94,22 @@ import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { useSendOrderMenuStore } from '@/store/SendOrderMenuStore';
 import { useThanksScreenStore } from '@/store/ThanksScreenStore.js';
+import { useMobileMenuStore } from '@/store/MobileMenuStore.js';
+import DisableScroll from '@/composables/disable-scroll';
+import EnableScroll from '@/composables/enable-scroll';
 const SendOrderMenuStore = useSendOrderMenuStore()
 const ThanksScreenStore = useThanksScreenStore()
+const MobileMenuStore = useMobileMenuStore()
+SendOrderMenuStore.$subscribe(() => {
+    if (SendOrderMenuStore.menuOpened) {
+        DisableScroll()
+    }
+    else {
+        if(!MobileMenuStore.menuOpened) {
+            EnableScroll()
+        }
+    }
+})
 let tl = gsap.timeline()
 const enter = (el) => {
     menuOpen(el)
@@ -398,9 +411,6 @@ const v$ = useVuelidate(rules, state)
     align-items: flex-end;
     margin-top: auto;
 }
-.send-order-menu__logo-wrapper {
-    margin-bottom: -28px;
-}
 .send-order-menu__logo {
     align-self: flex-start;
     & .logo__image {
@@ -411,7 +421,7 @@ const v$ = useVuelidate(rules, state)
     }
 }
 .send-order-menu__contacts {
-    width: 100%;
+    width: 40%;
     max-width: 550px;
     margin-left: auto;
 }
@@ -512,6 +522,14 @@ const v$ = useVuelidate(rules, state)
     }
 }
 @media (max-width:1000px) {
+    .send-order-menu__logo-wrapper {
+        margin-bottom: 0;
+    }
+    .send-order-menu__logo {
+        & .logo__text {
+            margin: 20px 0 0 0;
+        }
+    }
     .send-order-menu__form_controls {
         position: static;
         transform: none;
@@ -545,7 +563,6 @@ const v$ = useVuelidate(rules, state)
         top: 0;
         left: 0;
         width: 100%;
-        max-width: 160px;
         transform: translateY(-50%);
         margin: 0;
         z-index: 10;
@@ -553,11 +570,14 @@ const v$ = useVuelidate(rules, state)
     .send-order-menu__logo {
         & .logo__text {
             width: 100%;
-            margin: 10px 0 0 0;
+            margin: 15px 0 0 0;
         }
-        & .logo__image {
-            max-width: 120px;
-        }
+    }
+    .send-order-menu__close-btn {
+        margin-left: 48px;
+    }
+    .send-order-menu__contacts {
+        width: 100%;
     }
     .send-order-menu__contacts_email {
         font-size: 28px;
@@ -573,6 +593,7 @@ const v$ = useVuelidate(rules, state)
     .send-order-menu__close-btn {
         width: 60px;
         height: 60px;
+        margin-left: 32px;
     }
     .send-order-menu__lang {
         font-size: 12px;

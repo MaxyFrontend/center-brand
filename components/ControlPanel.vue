@@ -2,7 +2,7 @@
   <section class="control-panel">
     <div class="container control-panel__container">
         <div class="control-panel__content">
-            <StepsNavigation @btnClick="(idx) => $emit('btnClick', idx)" />
+            
         </div>
     </div>
   </section>
@@ -16,7 +16,6 @@ defineEmits(["btnClick"]);
 .control-panel {
   position: relative;
   width: 100%;
-  margin-top: 50px;
   padding-bottom: 70px;
   z-index: 1000;
   overflow: hidden;

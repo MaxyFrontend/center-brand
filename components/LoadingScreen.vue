@@ -67,7 +67,7 @@ const props = defineProps({
     top: 0;
     height: 100vh;
     width: 100%;
-    z-index: 50;
+    z-index: 500;
 }
 .loading-screen__content {
     position: fixed;

@@ -7,7 +7,7 @@
                     <nav class="header__nav">
                         <ul class="header__nav-list">
                             <li class="header__nav-list_item">
-                                <a href="#">hello@proekt.agency</a>
+                                <a href="mailto:hello@bignames.ru">hello@bignames.ru</a>
                             </li>
                             <li class="header__nav-list_item">
                                 <a href="#">whatsapp</a>
@@ -34,9 +34,7 @@ const MobileMenuStore = useMobileMenuStore()
 
 <style lang="scss">
 .header {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     z-index: 100;
     padding: 56px 0;
@@ -48,6 +46,9 @@ const MobileMenuStore = useMobileMenuStore()
 .header__container {
     display: flex;
     align-items: center;
+}
+.header__logo {
+    margin-top: 20px;
 }
 .header__nav {
     display: flex;
@@ -91,7 +92,6 @@ const MobileMenuStore = useMobileMenuStore()
     display: none;
     overflow: hidden;
     border: 1px solid #CACACA;
-    border-radius: 50%;
     &::before,
     &::after {
         content: "";
@@ -121,8 +121,36 @@ const MobileMenuStore = useMobileMenuStore()
         padding: 37px 0;
     }
 }
+@media (max-width:1400px) {
+    .header {
+        padding: 20px 0 40px;
+    }
+    .header__nav-list_item {
+        margin-right: 50px;
+    }
+    .header__lang-link {
+        margin-left: 50px;
+    }
+}
+@media (max-width:1200px) {
+    .header__nav-list_item {
+        margin-right: 35px;
+    }
+    .header__lang-link {
+        margin-left: 35px;
+    }
+}
 @media (max-width:1000px) {
+    .header__container {
+        align-items: flex-start;
+    }
+    .header__logo {
+        flex-direction: column;
+    }
     .header__nav {
+        display: none;
+    }
+    .header__lang-link {
         display: none;
     }
     .menu-btn {
@@ -137,6 +165,11 @@ const MobileMenuStore = useMobileMenuStore()
     }
 }
 @media (max-width: 370px) {
+    .header__logo {
+        & .logo__image {
+            max-width: 170px;
+        }
+    }
     .header__lang-link {
         font-size: 12px;
         line-height: 15px;

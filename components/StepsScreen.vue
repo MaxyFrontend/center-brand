@@ -35,20 +35,7 @@ const props = defineProps({
         default: '01'
     }
 })
-// let titleEl = ref(null)
 onMounted(() => {
-    /* titleEl.value = document.createElement('h1')
-    titleEl.value.classList.add('steps-screen__title')
-    for (let line of props.title) {
-        let p = document.createElement('p')
-        p.classList.add('steps-screen__title_line')
-        let inner = document.createElement('span')
-        inner.classList.add('steps-screen__title_line_inner')
-        inner.textContent = line
-        p.appendChild(inner)
-        titleEl.value.appendChild(p)
-    }
-    console.log(titleEl.value) */
     setTimeout(() => {
         let stepsScreens = document.querySelectorAll('.steps-screen')
         for (let i = 0; i < stepsScreens.length; i++) {
@@ -68,15 +55,16 @@ onMounted(() => {
 <style lang="scss">
 .steps-screen {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    //height: 100%;
     overflow: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 150px;
+    align-self: flex-end;
+    padding-top: 86px;
 }
 .steps-screen__container {
     height: 100%;
@@ -158,15 +146,15 @@ onMounted(() => {
     }
 }
 @media (max-width:700px) {
-    .steps-screen {
-        padding-top: 120px;
-    }
     .steps-screen__title {
         font-size: 28px;
         line-height: 36px;
     }
 }
 @media (max-width:370px) {
+    .steps-screen {
+        padding-top: 50px;
+    }
     .steps-screen__title {
         font-size: 22px;
         line-height: 28px;
