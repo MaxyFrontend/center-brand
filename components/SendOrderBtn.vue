@@ -2,7 +2,7 @@
     <div :class="['send-order-btn-wrapper', props.class]">
         <button class="send-order-btn" @click="SendOrderMenuStore.open()">
             <span class="send-order-btn__text overflow--hidden">
-                <span class="send-order-btn__text_inner">Отправить ТЗ</span>
+                <span class="send-order-btn__text_inner"> {{ props.text }} </span>
             </span>
             <div class="send-order-btn__icon-inner">
                 <IconsCornerArrow class="send-order-btn__icon" />
@@ -16,6 +16,10 @@ import { useSendOrderMenuStore } from '@/store/SendOrderMenuStore';
 const SendOrderMenuStore = useSendOrderMenuStore()
 const props = defineProps({
     class: {
+        type:String,
+        required:false,
+    },
+    text: {
         type:String,
         required:false,
     }

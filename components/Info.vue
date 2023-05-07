@@ -14,7 +14,7 @@
                     <div class="info__table_item_border info__table_item_border-left"></div>
                 </div>
             </div>
-            <SendOrderBtn class="steps-navigation__send-order-btn-wrapper" />
+            <SendOrderBtn :text="props.orderBtn.text" class="steps-navigation__send-order-btn-wrapper" />
         </div>
     </div>
 </template>
@@ -75,6 +75,10 @@ const props = defineProps({
     },
     currentTableIdx: {
         type: Number,
+        required: true
+    },
+    orderBtn: {
+        type: Object,
         required: true
     }
 })
@@ -190,7 +194,7 @@ const props = defineProps({
 }
 @media (max-width:370px) {
     .info__table_item {
-        padding: 26px;
+        padding: 26px 20px;
         font-size: 12px;
     }
 }

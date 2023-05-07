@@ -36,6 +36,7 @@ svg {
         visibility: visible;
     }
 }
+
 .main {
     position: relative;
     width: 100%;
@@ -45,7 +46,4 @@ svg {
     flex-direction: column;
     padding-bottom: 68px;
     z-index: 100;
-    .is-mobile & {
-        height: fill-available;
-    }
 }

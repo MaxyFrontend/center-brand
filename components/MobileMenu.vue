@@ -37,7 +37,7 @@
                             </li>
                         </ul>
                     </div>
-                    <SendOrderBtn class="mobile-menu__order-btn" />
+                    <SendOrderBtn :text="props.orderBtn.text" class="mobile-menu__order-btn" />
                 </div>
             </div>
         </div>
@@ -66,6 +66,10 @@ const props = defineProps({
         type: Object,
         required: true
     },
+    orderBtn: {
+        type: Object,
+        required: true
+    }
 })
 </script>
 

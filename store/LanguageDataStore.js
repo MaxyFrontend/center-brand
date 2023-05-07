@@ -92,7 +92,7 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                 orderMenuData: {
                     title: 'Давайте начнём!',
                     subTitle: 'Опишите Вашу задачу, и мы свяжемся с вами для обсуждения всех деталей',
-                    types:[
+                    types: [
                         {
                             text: 'Анализ',
                         },
@@ -121,7 +121,7 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                         }
                     ],
                     fields: {
-                        name:{
+                        name: {
                             placeholder: 'Имя,  Компания'
                         },
                         email: {
@@ -133,6 +133,13 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                     },
                     acceptText: 'Нажимая этот кружок, я даю согласие на обработку персональных данных',
                     address: 'Москва, ул. Новодмитровская, д. 1'
+                },
+                orderBtn: {
+                    text: 'Отправить ТЗ'
+                },
+                thanksScreen: {
+                    title: 'Спасибо за заявку!',
+                    subTitle: 'Скоро мы свяжемся с Вами'
                 }
             },
             en: {
@@ -150,7 +157,7 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                         text: 'Brand'
                     },
                     {
-                        text: 'Website'
+                        text: 'Site'
                     },
                     {
                         text: 'Visual'
@@ -226,7 +233,7 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                 orderMenuData: {
                     title: 'Lets start!',
                     subTitle: 'Describe your task and we will contact you to discuss all the details',
-                    types:[
+                    types: [
                         {
                             text: 'Analysis',
                         },
@@ -234,7 +241,7 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                             text: 'Brand',
                         },
                         {
-                            text: 'Website',
+                            text: 'Site',
                         },
                         {
                             text: 'Visual',
@@ -245,28 +252,35 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                     ],
                     budget: [
                         {
-                            text: 'ещ 1 bil',
+                            text: 'to 1 bil',
                         },
                         {
                             text: '1 to 2 bil',
                         },
                         {
-                            text: 'ьore than 2 bil',
+                            text: 'more than 2 bil',
                         }
                     ],
                     fields: {
-                       name: {   
+                        name: {
                             placeholder: 'Name,  Company'
                         },
-                        email:{
+                        email: {
                             placeholder: 'E-mail'
                         },
-                       details: {
+                        details: {
                             placeholder: 'Project details'
                         },
                     },
                     acceptText: 'By clicking this circle, I consent to the processing of personal data',
                     address: 'Moscow, st. Novodmitrovskaya, 1'
+                },
+                orderBtn: {
+                    text: 'Send TK'
+                },
+                thanksScreen: {
+                    title: 'Thanks for order!',
+                    subTitle: 'We will contact you soon'
                 }
             }
         }

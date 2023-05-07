@@ -10,11 +10,11 @@
                             <div class="container thanks-screen__content_container">
                                 <h2 class="thanks-screen__title overflow--hidden">
                                     <p class="thanks-screen__title-inner">
-                                        Спасибо за заявку!
+                                        {{ props.title }}
                                     </p>
                                 </h2>
                                 <div class="thanks-screen__sub-title overflow--hidden">
-                                    <p class="thanks-screen__sub-title-inner">Скоро мы свяжемся с Вами</p>
+                                    <p class="thanks-screen__sub-title-inner"> {{ props.subTitle }}</p>
                                 </div>
                             </div>
                         </div>
@@ -62,6 +62,16 @@ const leave = (el) => {
     .to(formBtnIcon, {autoAlpha:1, duration:.3}, '-=.3')
     .call(()=>{SendOrderMenuStore.close()}, {}, '-=.2')
 }
+const props = defineProps({
+    title: {
+        type:String,
+        required:true
+    },
+    subTitle: {
+        type:String,
+        required:true
+    }
+})
 </script>
 
 <style lang="scss">

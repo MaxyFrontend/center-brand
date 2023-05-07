@@ -6,13 +6,13 @@
                 <BackgroundScreen class="first-appear-bg-screen" />
                 <StepsNavigation :stepsNavigation="languageData.stepsNavigation" @btnClick="(idx)=>navBtnClick(idx)" />
                 <Steps :stepsTitles="languageData.stepsTitles" />
-                <Info :infoTable="languageData.infoTable" :currentTableIdx="currentInfoTableIdx" />
+                <Info :orderBtn="languageData.orderBtn" :infoTable="languageData.infoTable" :currentTableIdx="currentInfoTableIdx" />
             </main>
             <SendOrderMenu :langLink="languageData.langLink" :orderMenuData="languageData.orderMenuData" :logoDescription="languageData.logoDescription" />
-            <MobileMenu :langLink="languageData.langLink" :logoDescription="languageData.logoDescription" />
-            <ThanksScreen />
-            <LoadingScreen v-if="numbersVisible" :numFrom="0" :numTo="99" :step="5" />
+            <MobileMenu :orderBtn="languageData.orderBtn" :langLink="languageData.langLink" :logoDescription="languageData.logoDescription" />
+            <ThanksScreen :title="languageData.thanksScreen.title" :subTitle="languageData.thanksScreen.subTitle" />
         </div>
+        <LoadingScreen v-if="numbersVisible" :numFrom="0" :numTo="99" :step="5" />
         <NuxtPage @sendData="getLang" />
     </div>
 </template>
@@ -139,7 +139,7 @@ onMounted(() => {
     gsap.set(header, { visibility: 'hidden', y: () => header.offsetHeight })
     gsap.set(stepsNavigation, { autoAlpha: 0 })
     gsap.set(steps, { minHeight: stepsHeight() })
-    gsap.set(sendOrderBtn, { y: () => sendOrderBtn.offsetHeight })
+    gsap.set(sendOrderBtn, { y: () => sendOrderBtn.offsetHeight+5 })
     let numbersTl = gsap.timeline({ delay: .7 })
     let numbersWrapper = document.querySelector('.loading-screen__number-wrapper')
     let numberEl = numbersWrapper.querySelectorAll('.loading-screen__number')
@@ -171,6 +171,7 @@ onMounted(() => {
         .call(changeScreen, [0], '-=.3')
         .fromTo(stepsNavigation, { autoAlpha: 0 }, { autoAlpha: 1 }, '-=.3')
         .to(sendOrderBtn, { y: 0, duration: .3 }, '-=.5')
+        .set('.app', {minHeight:'100%', height:'auto', transition:0})
         .fromTo('.app', { background: '#FAFAFA' }, { background: '#ECECEC', overflow: 'visible', duration: .3 }, '-=1')
         .to('.info__table_item_border-top', { width: '100%', duration: .2 }, '-=.4')
         .to('.info__table_item_border-bottom', { width: '100%', duration: .2 }, '-=.4')
@@ -225,12 +226,6 @@ onMounted(() => {
     &.visible {
         opacity: 1;
         visibility: visible;
-    }
-}
-@media (max-height: 700px) {
-    .app {
-        height: auto;
-        min-height: 100%;
     }
 }
 </style>
