@@ -58,4 +58,5 @@ export default defineNuxtConfig({
         routes: ['/']
       }
     },
+    telemetry: false
 })
