@@ -1,5 +1,5 @@
 <template>
-<!--     <div :class="['page-content',{'content-visible': contentVisible}]">
+   <!--  <div :class="['page-content',{'content-visible': contentVisible}]">
         <AppHeader />
         <main :class="['main']">
             <BackgroundScreen class="first-appear-bg-screen" />
@@ -16,7 +16,7 @@
 
 <script setup>
 const data = ref({
-    lang:'ru',
+    lang:'en',
 })
 
 const emit = defineEmits(['sendData'])
@@ -201,4 +201,5 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+
 </style>

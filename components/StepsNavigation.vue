@@ -3,7 +3,7 @@
     <div class="container steps-navigation__container">
       <div class="steps-navigation__list">
         <button
-          :class="['steps-navigation__list_item', { current: item.current }]"
+          :class="['steps-navigation__list_item', { 'current': StepsNaigationStore.navigation[idx].current }]"
           v-for="(item, idx) of navigation"
           :key="idx"
           @click="$emit('btnClick', idx)">
@@ -17,8 +17,16 @@
 <script setup>
 import { useStepsNavigationStore } from "@/store/StepsNavigationStore";
 let StepsNaigationStore = useStepsNavigationStore();
-const navigation = StepsNaigationStore.navigation;
+const navigation = computed(()=>{
+  return props.stepsNavigation
+});
 defineEmits(["btnClick"]);
+const props = defineProps({
+  stepsNavigation:{
+    type:Array,
+    requred:true
+  }
+})
 </script>
 
 <style lang="scss">

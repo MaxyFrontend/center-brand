@@ -97,7 +97,7 @@ onMounted(() => {
 }
 .steps-screen__title {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1270px;
     font-family: "AtypDisplay";
     font-style: normal;
     font-weight: 400;

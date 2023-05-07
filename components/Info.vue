@@ -21,52 +21,17 @@
 
 <script setup>
 import gsap from 'gsap';
-const infoTable = ref([
-    [
-        {
-            text: ' 3-4 недели'
-        },
-        {
-            text: 'от 20 000 р.'
-        }
-    ],
-    [
-        {
-            text: ' 3-5 недели'
-        },
-        {
-            text: 'от 200 000 р.'
-        }
-    ],
-    [
-        {
-            text: ' 4-8 недели'
-        },
-        {
-            text: 'от 400 000 р.'
-        }
-    ],
-    [
-        {
-            text: ' 4-9 недели'
-        },
-        {
-            text: 'от 245 000 р.'
-        }
-    ],
-    [
-        {
-            text: ' 4-6 недели'
-        },
-        {
-            text: 'от 40 000 р.'
-        }
-    ],
-])
+// const infoTable = ref()
 const currentTableIdx = computed(() => {
+    setTimeout(()=>{
+        currentTable.value = props.infoTable[currentTableIdx.value]
+    }, 260)
     return props.currentTableIdx
 })
-const currentTable = ref(infoTable.value[0])
+const tableChange = computed(()=>{
+    return props.infoTable
+})
+const currentTable = ref(props.infoTable[currentTableIdx.value])
 const textSlideUp = ref(false)
 const textSlideUpFromDown = ref(false)
 watch(currentTableIdx, () => {
@@ -80,10 +45,13 @@ watch(currentTableIdx, () => {
             textSlideUpFromDown.value = false
         }, 500)
         setTimeout(() => {
-            currentTable.value = infoTable.value[currentTableIdx.value]
+            currentTable.value = props.infoTable[currentTableIdx.value]
         }, 260)
     }
     animateText()
+})
+watch(tableChange, () => {
+    currentTable.value = props.infoTable[currentTableIdx.value]
 })
 onMounted(() => {
     let infoTableItems = document.querySelectorAll('.info__table_item')
@@ -101,6 +69,10 @@ onMounted(() => {
     })
 })
 const props = defineProps({
+    infoTable:{
+        type:Array,
+        required:true,
+    },
     currentTableIdx: {
         type: Number,
         required: true

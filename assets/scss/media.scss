@@ -1,5 +1,25 @@
+@media (max-width:1400px) {
+    .main {
+        padding-bottom: 32px;
+    }
+}
+@media (max-width:1200px) {
+    .main {
+        min-height: 500px;
+    }
+}
 @media (max-width:1100px) {
     .container {
         width: 100%;
+    }
+}
+@media (max-width:700px) {
+    .main {
+        min-height: 670px;
+    }
+}
+@media (max-width:370px) {
+    .main {
+        min-height: 560px;
     }
 }

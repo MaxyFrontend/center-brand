@@ -7,28 +7,17 @@
 </template>
 
 <script setup>
-const stepsTitles = [
-    [
-        "Анализируем идею, продукт, услугу",
-        "Выстраиваем бизнес-логику"
-    ],
-    [
-        "Придумываем и совершенствуем нарратив",
-        "Формируем дизайн-код"
-    ],
-    [
-        "Разрабатываем логику взаимодействия",
-        "Внедряем бизнес-задачи"
-    ],
-    [
-        "Наполняем визуальным материалом",
-        "Объем, анимация, видео, фото"
-    ],
-    [
-        "Quam, dolorem officiis numquam ipsa",
-        "Id earum hic molestiae at"
-    ],
-]
+const stepsTitles = computed(() => {
+    if(props.stepsTitles) {
+        return props.stepsTitles
+    }
+})
+const props = defineProps({
+    stepsTitles: {
+        type: Array,
+        required: true,
+    }
+})
 </script>
 
 <style>
@@ -46,11 +35,13 @@ const stepsTitles = [
     display: flex;
     flex-direction: column;
 }
+
 @media (max-width:1600px) {
     .steps {
         min-height: 220px;
     }
 }
+
 @media (max-width:1400px) {
     .steps {
         min-height: 200px;

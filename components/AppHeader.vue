@@ -3,7 +3,7 @@
         <div class="header__wrapper">
             <div class="header__content">
                 <div class="container header__container">
-                    <Logo class="header__logo" />
+                    <Logo :description="props.logoDescription" class="header__logo" />
                     <nav class="header__nav">
                         <ul class="header__nav-list">
                             <li class="header__nav-list_item">
@@ -17,7 +17,7 @@
                             </li>
                         </ul>
                     </nav>
-                    <a href="#" class="header__lang-link">EN</a>
+                    <NuxtLink :to="props.langLink.path" class="header__lang-link"> {{ props.langLink.name }} </NuxtLink>
                     <button :class="['menu-btn header__menu-btn', { 'menu-opened': MobileMenuStore.menuOpened }]" @click="MobileMenuStore.open()">
                         <div class="menu-btn__line"></div>
                     </button>
@@ -30,6 +30,16 @@
 <script setup>
 import { useMobileMenuStore } from "@/store/MobileMenuStore.js"
 const MobileMenuStore = useMobileMenuStore()
+const props = defineProps({
+    langLink:{
+        type:Object,
+        required:true
+    },
+    logoDescription: {
+        type:String,
+        required:true
+    }
+})
 </script>
 
 <style lang="scss">
@@ -79,6 +89,7 @@ const MobileMenuStore = useMobileMenuStore()
     font-size: 14px;
     line-height: 17px;
     color: #242424;
+    text-transform: uppercase;
     margin-left: 63px;
     &:hover {
         text-decoration: underline;

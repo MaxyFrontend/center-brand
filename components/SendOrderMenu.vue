@@ -5,7 +5,7 @@
         <div class="send-order-menu" v-if="SendOrderMenuStore.menuOpened">
             <div class="container send-order-menu__container">
                 <div class="send-order-menu__header">
-                    <a href="#" class="send-order-menu__lang overflow--hidden"><span class="send-order-menu__slide-bottom-anim">EN</span></a>
+                    <NuxtLink :to="props.langLink.path" class="send-order-menu__lang overflow--hidden"><span class="send-order-menu__slide-bottom-anim"> {{ props.langLink.name }} </span></NuxtLink>
                     <button type="button" class="send-order-menu__close-btn" @click="SendOrderMenuStore.close()">
                         <IconsCross class="send-order-menu__close-btn_icon" />
                     </button>
@@ -13,17 +13,16 @@
                 <div class="send-order-menu__content">
                     <form action="#" class="send-order-menu__form" @submit.prevent="formSubmit">
                         <h3 class="send-order-menu__form_title overflow--hidden">
-                            <span class="send-order-menu__slide-bottom-anim">Давайте начнём!</span>
+                            <span class="send-order-menu__slide-bottom-anim"> {{ data.title }} </span>
                         </h3>
                         <p class="send-order-menu__form_sub-title overflow--hidden">
                             <span class="send-order-menu__slide-bottom-anim">
-                                Опишите Вашу задачу, и мы свяжемся с вами для
-                                обсуждения всех деталей
+                                {{ data.subTitle }}
                             </span>
                         </p>
                         <ul class="send-order-menu__form_types send-order-menu__visibility-anim">
-                            <li :class="['send-order-menu__form_types_item', { 'is-active': type.choosen }]" v-for="(type, idx) in types" :key="idx"
-                                @click="types[idx].choosen = !types[idx].choosen">
+                            <li :class="['send-order-menu__form_types_item', { 'is-active': types[idx].choosen }]" v-for="(type, idx) in data.types" :key="idx"
+                                @click="typeChoose(idx)">
                                 <span class="send-order-menu__form_types_item_inner overflow--hidden">
                                     <span class="send-order-menu__slide-bottom-anim"> {{ type.text }}</span>
                                 </span>
@@ -31,18 +30,18 @@
                         </ul>
                         <div class="send-order-menu__form_fields-wrapper">
                             <div class="send-order-menu__form_field">
-                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.name.$invalid && v$.name.$dirty }]" placeholder="Имя,  Компания" v-model="state.name">
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.name.$invalid && v$.name.$dirty }]" :placeholder="data.fields.name.placeholder" v-model="state.name">
                             </div>
                             <div class="send-order-menu__form_field">
-                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.email.$invalid && v$.email.$dirty }]" placeholder="E-mail" v-model="state.email">
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.email.$invalid && v$.email.$dirty }]" :placeholder="data.fields.email.placeholder" v-model="state.email">
                             </div>
                             <div class="send-order-menu__form_field full-width">
-                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.details.$invalid && v$.details.$dirty }]" placeholder="Детали проекта" v-model="state.details" />
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.details.$invalid && v$.details.$dirty }]" :placeholder="data.fields.details.placeholder" v-model="state.details" />
                             </div>
                         </div>
                         <ul class="send-order-menu__budget send-order-menu__visibility-anim">
-                            <li :class="['send-order-menu__budget_item', { 'is-choosen': item.choosen }]"
-                                v-for="(item, idx) in budget" :key="idx" @click="budgetChoose(idx)">
+                            <li :class="['send-order-menu__budget_item', { 'is-choosen': budget[idx].choosen }]"
+                                v-for="(item, idx) in data.budget" :key="idx" @click="budgetChoose(idx)">
                                 <span class="send-order-menu__budget_item_inner overflow--hidden">
                                     <span class="send-order-menu__slide-bottom-anim"> {{ item.text }}</span>
                                 </span>
@@ -54,16 +53,14 @@
                                 <div class="send-order-menu__form_btn_background"></div>
                             </button>
                             <p class="send-order-menu__form_accept">
-                                Нажимая этот кружок, я
-                                даю согласие на обработку
-                                персональных данных
+                                {{ data.acceptText }}
                             </p>
                         </div>
                     </form>
                 </div>
                 <div class="send-order-menu__footer">
                     <div class="send-order-menu__logo-wrapper overflow--hidden">
-                        <Logo class="send-order-menu__logo send-order-menu__slide-bottom-anim" ImageColor="#fff" />
+                        <Logo class="send-order-menu__logo send-order-menu__slide-bottom-anim" :description="props.logoDescription" ImageColor="#fff" />
                     </div>
                     <div class="send-order-menu__contacts">
                         <div class="send-order-menu__contacts_group">
@@ -75,11 +72,11 @@
                                 <span class="send-order-menu__slide-bottom-anim">+7 495 740-65-84</span>
                             </a>
                             <p class="send-order-menu__contacts_address overflow--hidden">
-                                <span class="send-order-menu__slide-bottom-anim">Москва, ул. Новодмитровская, д. 1</span>
+                                <span class="send-order-menu__slide-bottom-anim"> {{ data.address }} </span>
                             </p>
                         </div>
                         <a href="mailto:hello@bignames.ru" class="send-order-menu__contacts_email overflow--hidden">
-                            <span class="send-order-menu__slide-bottom-anim">hello@bignames.ru</span>                        </a>
+                            <span class="send-order-menu__slide-bottom-anim">hello@bignames.ru</span></a>
                     </div>
                 </div>
             </div>
@@ -100,12 +97,15 @@ import EnableScroll from '@/composables/enable-scroll';
 const SendOrderMenuStore = useSendOrderMenuStore()
 const ThanksScreenStore = useThanksScreenStore()
 const MobileMenuStore = useMobileMenuStore()
+const data = computed(() => {
+    return props.orderMenuData
+})
 SendOrderMenuStore.$subscribe(() => {
     if (SendOrderMenuStore.menuOpened) {
         DisableScroll()
     }
     else {
-        if(!MobileMenuStore.menuOpened) {
+        if (!MobileMenuStore.menuOpened) {
             EnableScroll()
         }
     }
@@ -185,6 +185,20 @@ const budget = ref([
         choosen: false
     }
 ])
+const typeChoose = (idx) => {
+    types.value[idx].choosen = !types.value[idx].choosen
+    if(!types.value[idx].choosen && types.value[types.value.length-1].choosen) {
+        types.value.forEach(type=>{
+            type.choosen = false
+        })
+        types.value[idx].choosen = true
+    }
+    if(idx === types.value.length-1) {
+        types.value.forEach(type=>{
+            type.choosen = true
+        })
+    }
+}
 const budgetChoose = (idx) => {
     budget.value.forEach(item => {
         item.choosen = false
@@ -218,6 +232,20 @@ const rules = computed(() => {
     };
 });
 const v$ = useVuelidate(rules, state)
+const props = defineProps({
+    orderMenuData: {
+        type: Object,
+        required: true
+    },
+    logoDescription: {
+        type: String,
+        required: true
+    },
+    langLink: {
+        type: Object,
+        required: true
+    },
+})
 </script>
 
 <style lang="scss">
@@ -249,6 +277,11 @@ const v$ = useVuelidate(rules, state)
     font-size: 14px;
     line-height: 17px;
     color: #606060;
+    text-transform: uppercase;
+    transition: 0.2s ease;
+    &:hover {
+        color: #fff;
+    }
 }
 .send-order-menu__close-btn {
     width: 76px;

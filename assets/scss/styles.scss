@@ -1,7 +1,7 @@
 body,
 html {
     font-family: "Montserrat";
-    background: $background-color;
+    background: #fff;
     &.no-scroll {
         position: fixed;
         top: 0;
@@ -24,4 +24,28 @@ svg {
 }
 .overflow--hidden {
     overflow: hidden;
+}
+.page-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    &.content-visible {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+.main {
+    position: relative;
+    width: 100%;
+    min-height: 500px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 68px;
+    z-index: 100;
+    .is-mobile & {
+        height: fill-available;
+    }
 }

@@ -3,12 +3,12 @@
         <div class="mobile-menu" v-if="MobileMenuStore.menuOpened">
             <div class="mobile-menu__header">
                 <div class="container mobile-menu__header_container">
-                    <Logo class="mobile-menu__logo" ImageColor="#fafafa" />
+                    <Logo :description="props.logoDescription" class="mobile-menu__logo" ImageColor="#fafafa" />
                     <div class="mobile-menu__controls">
                         <button class="mobile-menu__close-btn" @click="MobileMenuStore.close()">
                             <IconsCross color="#fafafa" />
                         </button>
-                        <a href="#" class="mobile-menu__lang">EN</a>
+                        <NuxtLink :to="props.langLink.path" class="mobile-menu__lang">{{ props.langLink.name }}</NuxtLink>
                     </div>
                 </div>
             </div>
@@ -56,6 +56,16 @@ MobileMenuStore.$subscribe(() => {
     else {
         EnableScroll()
     }
+})
+const props = defineProps({
+    logoDescription: {
+        type:String,
+        required:true
+    },
+    langLink: {
+        type: Object,
+        required: true
+    },
 })
 </script>
 
@@ -119,6 +129,7 @@ MobileMenuStore.$subscribe(() => {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-transform: uppercase;
     border: 1px solid #606060;
     border-top: none;
     color: #FAFAFA;

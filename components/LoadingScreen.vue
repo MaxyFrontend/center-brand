@@ -21,8 +21,8 @@ const numArr = ref([
 for (let i = 0; i < props.numTo; i += props.step) {
     let numObj = []
     let num = i.toString()
-    if(num.length<=2 && num <=9) {
-        num = '0'+num
+    if (num.length <= 2 && num <= 9) {
+        num = '0' + num
     }
     let numberChars = num.split('')
     numberChars.forEach(char => {
@@ -32,8 +32,8 @@ for (let i = 0; i < props.numTo; i += props.step) {
     if (i + props.step >= props.numTo) {
         let numObj = []
         let num = props.numTo.toString()
-        if(num.length<=2 && num <=9) {
-            num = '0'+num
+        if (num.length <= 2 && num <= 9) {
+            num = '0' + num
         }
         let numberChars = num.split('')
         numberChars.forEach(char => {
@@ -77,10 +77,12 @@ const props = defineProps({
     height: calc(100% - 172px);
 }
 .loading-screen__container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 220px;
+    &.container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 220px;
+    }
 }
 .loading-screen__number-wrapper {
     position: relative;
@@ -102,7 +104,9 @@ const props = defineProps({
 }
 @media (max-height:600px) {
     .loading-screen__container {
-        padding-bottom: 30vh;
+        &.container {
+            padding-bottom: 30vh;
+        }
     }
 }
 @media (max-width:1600px) {
