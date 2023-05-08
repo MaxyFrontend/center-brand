@@ -33,7 +33,7 @@
                         </ul>
                         <ul class="mobile-menu__contacts_group">
                             <li class="mobile-menu__contacts_item">
-                                <a class="mobile-menu__contacts_item_email-link" href="mailto:hello@proekt.agency">hello@proekt.agency</a>
+                                <a class="mobile-menu__contacts_item_email-link" href="mailto:hello@bignms.ru">hello@bignms.ru</a>
                             </li>
                         </ul>
                     </div>

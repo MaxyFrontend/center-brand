@@ -43,8 +43,8 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                         "Объем, анимация, видео, фото"
                     ],
                     [
-                        "Целесообразно выполнение всего объема",
-                        "задач в комплексе “под ключ”"
+                        "Выполнение комплексных задач по разработке",
+                        "продукта, услуги, бренда"
                     ],
                 ],
                 infoTable: [
@@ -94,7 +94,7 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                     subTitle: 'Опишите Вашу задачу, и мы свяжемся с вами для обсуждения всех деталей',
                     types: [
                         {
-                            text: 'Анализ',
+                            text: 'Идея',
                         },
                         {
                             text: 'Бренд',
@@ -111,13 +111,13 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                     ],
                     budget: [
                         {
-                            text: 'до 1 млн',
+                            text: 'до 500К',
                         },
                         {
-                            text: '1 - 2 млн',
+                            text: 'до 1М',
                         },
                         {
-                            text: 'более 2 млн',
+                            text: 'более 1М',
                         }
                     ],
                     fields: {
@@ -151,7 +151,7 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                 },
                 stepsNavigation: [
                     {
-                        text: 'Analysis'
+                        text: 'Idea'
                     },
                     {
                         text: 'Brand'
@@ -184,8 +184,8 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                         "Volume, animation, video, photo"
                     ],
                     [
-                        "It is advisable to complete the entire volume",
-                        "tasks in the turnkey complex"
+                        "Performing complex tasks for the development",
+                        "of a product, service, brand"
                     ],
                 ],
                 infoTable: [
@@ -235,7 +235,7 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                     subTitle: 'Describe your task and we will contact you to discuss all the details',
                     types: [
                         {
-                            text: 'Analysis',
+                            text: 'Idea',
                         },
                         {
                             text: 'Brand',
@@ -252,13 +252,13 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                     ],
                     budget: [
                         {
-                            text: 'to 1 bil',
+                            text: 'to 500K',
                         },
                         {
-                            text: '1 to 2 bil',
+                            text: 'to 1M',
                         },
                         {
-                            text: 'more than 2 bil',
+                            text: 'more than 1M',
                         }
                     ],
                     fields: {

@@ -75,8 +75,8 @@
                                 <span class="send-order-menu__slide-bottom-anim"> {{ data.address }} </span>
                             </p>
                         </div>
-                        <a href="mailto:hello@bignames.ru" class="send-order-menu__contacts_email overflow--hidden">
-                            <span class="send-order-menu__slide-bottom-anim">hello@bignames.ru</span></a>
+                        <a href="mailto:hello@bignms.ru" class="send-order-menu__contacts_email overflow--hidden">
+                            <span class="send-order-menu__slide-bottom-anim">hello@bignms.ru</span></a>
                     </div>
                 </div>
             </div>
@@ -151,7 +151,7 @@ onMounted(() => {
 })
 const types = ref([
     {
-        text: 'Анализ',
+        text: 'Идея',
         choosen: false
     },
     {
@@ -173,15 +173,15 @@ const types = ref([
 ])
 const budget = ref([
     {
-        text: 'до 1 млн',
+        text: 'до 500К',
         choosen: false
     },
     {
-        text: '1 - 2 млн',
+        text: 'до 1М',
         choosen: false
     },
     {
-        text: 'более 2 млн',
+        text: 'более 1М',
         choosen: false
     }
 ])

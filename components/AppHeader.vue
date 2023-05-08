@@ -7,7 +7,7 @@
                     <nav class="header__nav">
                         <ul class="header__nav-list">
                             <li class="header__nav-list_item">
-                                <a href="mailto:hello@bignames.ru">hello@bignames.ru</a>
+                                <a href="mailto:hello@bignms.ru">hello@bignms.ru</a>
                             </li>
                             <li class="header__nav-list_item">
                                 <a href="#">whatsapp</a>
