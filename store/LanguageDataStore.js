@@ -43,7 +43,7 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                         "Объем, анимация, видео, фото"
                     ],
                     [
-                        "Выполнение комплексных задач по разработке",
+                        "Выполняем комплексные задачи по разработке",
                         "продукта, услуги, бренда"
                     ],
                 ],
@@ -184,7 +184,7 @@ export const useLanguageDataStore = defineStore('LanguageDataStore', {
                         "Volume, animation, video, photo"
                     ],
                     [
-                        "Performing complex tasks for the development",
+                        "We perform complex tasks for the development",
                         "of a product, service, brand"
                     ],
                 ],
