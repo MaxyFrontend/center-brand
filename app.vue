@@ -1,17 +1,15 @@
 <template>
-    <div :class="['app', { 'is-mobile': isMobileOrTablet }]">
-        <div :class="['page-content',{'content-visible': contentVisible}]">
-            <AppHeader :logoDescription="languageData.logoDescription" :langLink="languageData.langLink" />
-            <main :class="['main']">
-                <BackgroundScreen class="first-appear-bg-screen" />
-                <StepsNavigation :stepsNavigation="languageData.stepsNavigation" @btnClick="(idx)=>navBtnClick(idx)" />
-                <Steps :stepsTitles="languageData.stepsTitles" />
-                <Info :orderBtn="languageData.orderBtn" :infoTable="languageData.infoTable" :currentTableIdx="currentInfoTableIdx" />
-            </main>
-            <SendOrderMenu :langLink="languageData.langLink" :orderMenuData="languageData.orderMenuData" :logoDescription="languageData.logoDescription" />
-            <MobileMenu :orderBtn="languageData.orderBtn" :langLink="languageData.langLink" :logoDescription="languageData.logoDescription" />
-            <ThanksScreen :title="languageData.thanksScreen.title" :subTitle="languageData.thanksScreen.subTitle" />
-        </div>
+    <div :class="['app', { 'is-mobile': isMobileOrTablet, 'content-visible': contentVisible } ]">
+        <AppHeader :logoDescription="languageData.logoDescription" :langLink="languageData.langLink" />
+        <main :class="['main']">
+            <BackgroundScreen class="first-appear-bg-screen" />
+            <StepsNavigation :stepsNavigation="languageData.stepsNavigation" @btnClick="(idx)=>navBtnClick(idx)" />
+            <Steps :stepsTitles="languageData.stepsTitles" />
+            <Info :orderBtn="languageData.orderBtn" :infoTable="languageData.infoTable" :currentTableIdx="currentInfoTableIdx" />
+        </main>
+        <SendOrderMenu :langLink="languageData.langLink" :orderMenuData="languageData.orderMenuData" :logoDescription="languageData.logoDescription" />
+        <MobileMenu :orderBtn="languageData.orderBtn" :langLink="languageData.langLink" :logoDescription="languageData.logoDescription" />
+        <ThanksScreen :title="languageData.thanksScreen.title" :subTitle="languageData.thanksScreen.subTitle" />
         <LoadingScreen v-if="numbersVisible" :numFrom="0" :numTo="99" :step="5" />
         <NuxtPage @sendData="getLang" />
     </div>
@@ -24,15 +22,15 @@ import { useLanguageDataStore } from '@/store/LanguageDataStore'
 const LanguageDataStore = useLanguageDataStore()
 let contentVisible = ref(false)
 const lang = ref('ru')
-let languageData = computed(()=>{
-    if(lang.value === 'ru') {
+let languageData = computed(() => {
+    if (lang.value === 'ru') {
         return LanguageDataStore.ru
     }
-    else if(lang.value === 'en') {
+    else if (lang.value === 'en') {
         return LanguageDataStore.en
     }
 })
-const getLang = (data)=>{
+const getLang = (data) => {
     lang.value = data.lang
 }
 const isMobileOrTablet = ref(false)
@@ -135,11 +133,12 @@ onMounted(() => {
         })
         return height
     }
+    gsap.set(main, { minHeight: main.scrollHeight, transition: 0 })
     gsap.set(bgScreen, { top: '100%' })
     gsap.set(header, { visibility: 'hidden', y: () => header.offsetHeight })
     gsap.set(stepsNavigation, { autoAlpha: 0 })
     gsap.set(steps, { minHeight: stepsHeight() })
-    gsap.set(sendOrderBtn, { y: () => sendOrderBtn.offsetHeight+5 })
+    gsap.set(sendOrderBtn, { y: () => sendOrderBtn.offsetHeight + 5 })
     let numbersTl = gsap.timeline({ delay: .7 })
     let numbersWrapper = document.querySelector('.loading-screen__number-wrapper')
     let numberEl = numbersWrapper.querySelectorAll('.loading-screen__number')
@@ -171,7 +170,7 @@ onMounted(() => {
         .call(changeScreen, [0], '-=.3')
         .fromTo(stepsNavigation, { autoAlpha: 0 }, { autoAlpha: 1 }, '-=.3')
         .to(sendOrderBtn, { y: 0, duration: .3 }, '-=.5')
-        .set('.app', {minHeight:'100%', height:'auto', transition:0})
+        .set('.app', { minHeight: '100%', height: 'auto', transition: 0 })
         .fromTo('.app', { background: '#FAFAFA' }, { background: '#ECECEC', overflow: 'visible', duration: .3 }, '-=1')
         .to('.info__table_item_border-top', { width: '100%', duration: .2 }, '-=.4')
         .to('.info__table_item_border-bottom', { width: '100%', duration: .2 }, '-=.4')
@@ -208,6 +207,9 @@ onMounted(() => {
             }
         },
     });
+    window.addEventListener('resize', () => {
+        gsap.set(steps, { minHeight: stepsHeight() })
+    })
 })
 </script>
 <style src="@/assets/scss/main.scss">
@@ -223,7 +225,9 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    &.visible {
+    opacity: 0;
+    visibility: hidden;
+    &.content-visible {
         opacity: 1;
         visibility: visible;
     }

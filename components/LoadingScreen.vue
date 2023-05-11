@@ -81,7 +81,7 @@ const props = defineProps({
         height: 100%;
         display: flex;
         flex-direction: column;
-        padding-bottom: 220px;
+        padding-bottom: 30vh;
     }
 }
 .loading-screen__number-wrapper {
@@ -101,13 +101,6 @@ const props = defineProps({
 }
 .loading-screen__number_char {
     display: inline-block;
-}
-@media (max-height:600px) {
-    .loading-screen__container {
-        &.container {
-            padding-bottom: 30vh;
-        }
-    }
 }
 @media (max-width:1600px) {
     .loading-screen__number {
