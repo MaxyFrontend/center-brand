@@ -10,10 +10,10 @@
                                 <a href="mailto:hello@bignms.ru">hello@bignms.ru</a>
                             </li>
                             <li class="header__nav-list_item">
-                                <a href="#">whatsapp</a>
+                                <a href="https://wa.me/89295077964" target="_blank">whatsapp</a>
                             </li>
                             <li class="header__nav-list_item">
-                                <a href="#">telegram</a>
+                                <a href="https://t.me/nikolaev_sky" target="_blank">telegram</a>
                             </li>
                         </ul>
                     </nav>
