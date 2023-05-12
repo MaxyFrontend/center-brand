@@ -187,14 +187,14 @@ const budget = ref([
 ])
 const typeChoose = (idx) => {
     types.value[idx].choosen = !types.value[idx].choosen
-    if(!types.value[idx].choosen && types.value[types.value.length-1].choosen) {
-        types.value.forEach(type=>{
+    if (!types.value[idx].choosen && types.value[types.value.length - 1].choosen) {
+        types.value.forEach(type => {
             type.choosen = false
         })
         types.value[idx].choosen = true
     }
-    if(idx === types.value.length-1) {
-        types.value.forEach(type=>{
+    if (idx === types.value.length - 1) {
+        types.value.forEach(type => {
             type.choosen = true
         })
     }
@@ -207,17 +207,29 @@ const budgetChoose = (idx) => {
 }
 const formSubmit = async (e) => {
     let formIsValid = await v$.value.$validate()
-    if (!formIsValid) {
+    if (formIsValid) {
+        const form = e.target
+        let formData = new FormData(form)
+        try {
+            let response = await $fetch('/mail.php', {
+                method: 'POST',
+                body: formData
+            })
+            ThanksScreenStore.open()
+            setTimeout(() => {
+                state.name = ''
+                state.email = ''
+                state.details = ''
+                v$.value.$reset()
+            }, 1000)
+        }
+        catch (error) {
+            alert('Что-то пошло не так')
+        }
+    }
+    else {
         return false
     }
-    let currentForm = e.target
-    ThanksScreenStore.open()
-    setTimeout(() => {
-        state.name = ''
-        state.email = ''
-        state.details = ''
-        v$.value.$reset()
-    }, 1000)
 }
 const state = reactive({
     name: '',
