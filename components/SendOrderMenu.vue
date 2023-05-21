@@ -393,7 +393,6 @@ const props = defineProps({
     line-height: 1;
     color: #FAFAFA;
     border: 1px solid #606060;
-    border-radius: 16px;
     transition: 0.2s ease;
     &::placeholder {
         color: inherit;
