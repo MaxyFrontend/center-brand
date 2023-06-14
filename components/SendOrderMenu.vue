@@ -30,13 +30,13 @@
                         </ul>
                         <div class="send-order-menu__form_fields-wrapper">
                             <div class="send-order-menu__form_field">
-                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.name.$invalid && v$.name.$dirty }]" :placeholder="data.fields.name.placeholder" v-model="state.name">
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.name.$invalid && v$.name.$dirty }]" :placeholder="data.fields.name.placeholder" name="name" v-model="state.name">
                             </div>
                             <div class="send-order-menu__form_field">
-                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.email.$invalid && v$.email.$dirty }]" :placeholder="data.fields.email.placeholder" v-model="state.email">
+                                <input type="email" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.email.$invalid && v$.email.$dirty }]" :placeholder="data.fields.email.placeholder" name="email" v-model="state.email">
                             </div>
                             <div class="send-order-menu__form_field full-width">
-                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.details.$invalid && v$.details.$dirty }]" :placeholder="data.fields.details.placeholder" v-model="state.details" />
+                                <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.details.$invalid && v$.details.$dirty }]" :placeholder="data.fields.details.placeholder" name="details" v-model="state.details" />
                             </div>
                         </div>
                         <ul class="send-order-menu__budget send-order-menu__visibility-anim">
@@ -208,7 +208,7 @@ const budgetChoose = (idx) => {
 const formSubmit = async (e) => {
     let formIsValid = await v$.value.$validate()
     if (formIsValid) {
-        const form = e.target
+         const form = e.target
         let formData = new FormData(form)
         try {
             let response = await $fetch('/mail.php', {
@@ -225,7 +225,7 @@ const formSubmit = async (e) => {
         }
         catch (error) {
             alert('Что-то пошло не так')
-        }
+        } 
     }
     else {
         return false
@@ -277,7 +277,6 @@ const props = defineProps({
 .fade-leave-active {
     transition-delay: 1s;
 }
-.send-order-menu__container {}
 .send-order-menu__header {
     display: flex;
     align-items: center;
