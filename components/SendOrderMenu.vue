@@ -38,6 +38,8 @@
                             <div class="send-order-menu__form_field full-width">
                                 <input type="text" :class="['send-order-menu__form_input send-order-menu__visibility-anim', { 'is-invalid': v$.details.$invalid && v$.details.$dirty }]" :placeholder="data.fields.details.placeholder" name="details" v-model="state.details" />
                             </div>
+                            <input type="text" class="send-order-menu__form_input send-order-menu__form_input_hidden" :value="choosenTypes" name="type">
+                            <input type="text" class="send-order-menu__form_input send-order-menu__form_input_hidden" :value="choosenBudget" name="budget">
                         </div>
                         <ul class="send-order-menu__budget send-order-menu__visibility-anim">
                             <li :class="['send-order-menu__budget_item', { 'is-choosen': budget[idx].choosen }]"
@@ -171,6 +173,15 @@ const types = ref([
         choosen: false
     },
 ])
+const choosenTypes = computed(()=>{
+    let arr = []
+    types.value.forEach(type=>{
+        if(type.choosen) {
+            arr.push(type.text)
+        }
+    })
+    return arr.join(', ')
+})
 const budget = ref([
     {
         text: 'до 500К',
@@ -185,6 +196,15 @@ const budget = ref([
         choosen: false
     }
 ])
+const choosenBudget = computed(()=>{
+    let arr = []
+    budget.value.forEach(budget=>{
+        if(budget.choosen) {
+            arr.push(budget.text)
+        }
+    })
+    return arr.join(', ')
+})
 const typeChoose = (idx) => {
     types.value[idx].choosen = !types.value[idx].choosen
     if (!types.value[idx].choosen && types.value[types.value.length - 1].choosen) {
@@ -400,6 +420,9 @@ const props = defineProps({
     &.is-invalid {
         border-color: #ff4444;
         color: #ff4444;
+    }
+    &_hidden {
+        display: none;
     }
 }
 .send-order-menu__form_controls {
